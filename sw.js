@@ -39,8 +39,10 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
+    // no-cache: GitHub Pages lets browsers reuse the page for 10 minutes, which would hide a new
+    // deploy; this asks the server each time (cheap, since an unchanged page isn't re-sent).
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: "no-cache" })
         .then((response) => cacheResponse("./", response))
         .catch(() => caches.match("./")),
     );
