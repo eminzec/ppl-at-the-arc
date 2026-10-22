@@ -58,7 +58,41 @@
           <button type="button" data-rest="skip">Skip</button>
         </span>`;return}window.clearInterval(r),e.classList.add(`rest-done`),e.innerHTML=`
       <span class="rest-label"><strong>Time for your next set</strong></span>
-      <span class="rest-buttons"><button type="button" data-rest="skip">OK</button></span>`,o();let a=t;window.setTimeout(()=>{t===a&&s()},k)}return document.addEventListener(`pointerup`,a,{once:!0}),e.addEventListener(`click`,e=>{let r=e.target.closest(`[data-rest]`);r&&t!==null&&(r.dataset.rest===`add`?(t+=3e4,n+=30,c()):s())}),{start(i){a(),window.clearInterval(r),t=Date.now()+i*1e3,n=i,e.hidden=!1,e.classList.remove(`rest-done`),document.body.classList.add(`resting`),c(),r=window.setInterval(c,250)}}}var A=()=>!0;function j(e,t){return t?[...a[e],...o]:a[e]}function M(e,t){return e.options.flatMap((e,n)=>t(e)?[n]:[])}function N(e,t=Math.random,n=A){return e.map(e=>{let r=M(e,n),i=r.length>0?r:e.options.map((e,t)=>t);return i[Math.floor(t()*i.length)]})}function se(e,t,n,r=Math.random){let i=M(e,n).filter(e=>e!==t);return i.length>0?i[Math.floor(r()*i.length)]:null}function ce(e,t,n){return e.map((e,r)=>r===t?n:e)}function le(e,t){return e.map((e,n)=>e.options[t[n]])}var P=`ppl-workout-log`,F=`ppl-workout-draft`,I=`ppl-missing-equipment`,L=/^\d{4}-\d{2}-\d{2}$/;function R(e){let t=String(e.getMonth()+1).padStart(2,`0`),n=String(e.getDate()).padStart(2,`0`);return`${e.getFullYear()}-${t}-${n}`}var z=e=>typeof e==`object`&&!!e,B=e=>typeof e==`string`&&e in i,V=e=>typeof e==`string`&&e in r;function H(e){if(!z(e))return!1;let{weight:t,reps:n}=e;return(t===null||typeof t==`number`&&t>=0&&t<=2e3)&&Number.isInteger(n)&&n>=1&&n<=100}function U(e){return z(e)&&typeof e.name==`string`&&Array.isArray(e.sets)&&e.sets.every(H)}function W(e){if(!z(e)||typeof e.date!=`string`||!L.test(e.date)||!B(e.day))return null;let t=Array.isArray(e.exercises)?e.exercises.filter(U):[];return{date:e.date,day:e.day,exercises:t}}function G(e){if(!z(e)||!B(e.day)||!Array.isArray(e.workout)||!Array.isArray(e.sets)||typeof e.abs!=`boolean`||!Array.isArray(e.taken)||!e.taken.every(V))return!1;let t=j(e.day,e.abs),n=e.sets;return e.workout.length===t.length&&n.length===t.length&&e.workout.every((e,n)=>Number.isInteger(e)&&e>=0&&e<t[n].options.length)&&n.every(e=>Array.isArray(e)&&e.every(e=>z(e)&&typeof e.weight==`string`&&typeof e.reps==`string`))}function K(e){try{return JSON.parse(localStorage.getItem(e)??`null`)}catch{return null}}function q(e,t){try{return t===null?localStorage.removeItem(e):localStorage.setItem(e,JSON.stringify(t)),!0}catch{return!1}}function ue(){let e=K(P);return Array.isArray(e)?e.map(W).filter(e=>e!==null):[]}var J=e=>q(P,e);function de(){let e=K(F);return z(e)&&(e.abs??=!1,e.taken??=[]),G(e)?e:null}var fe=e=>q(F,e);function Y(){let e=K(I);return Array.isArray(e)?e.filter(V):[]}var pe=e=>q(I,e);function me(e,t){return[...e].reverse().sort((e,t)=>t.date.localeCompare(e.date)).flatMap(e=>e.exercises).find(e=>e.name===t)}var X=Object.keys(i),he=[`S`,`M`,`T`,`W`,`T`,`F`,`S`];function ge(e){return e.replace(/&/g,`&amp;`).replace(/"/g,`&quot;`).replace(/</g,`&lt;`)}var Z=e=>`${e} set${e===1?``:`s`} logged`,Q=e=>j(e.day,e.abs),_e=[...Object.keys(a).flatMap(e=>a[e].map(t=>({day:i[e],slot:t}))),...o.map(e=>({day:`Abs`,slot:e}))],ve=e=>_e.flatMap(({slot:e})=>e.options).filter(t=>t.equipment===e).length;function ye(a,l=()=>new Date){let d=de(),f=`home`,p=null,m=`progress`,g=null,S=null,C=new Set(Y()),w=null,T=ue(),E=null,O=ie(l()),k={year:l().getFullYear(),month:l().getMonth()};a.innerHTML=`
+      <span class="rest-buttons"><button type="button" data-rest="skip">OK</button></span>`,o();let a=t;window.setTimeout(()=>{t===a&&s()},k)}return document.addEventListener(`pointerup`,a,{once:!0}),e.addEventListener(`click`,e=>{let r=e.target.closest(`[data-rest]`);r&&t!==null&&(r.dataset.rest===`add`?(t+=3e4,n+=30,c()):s())}),{start(i){a(),window.clearInterval(r),t=Date.now()+i*1e3,n=i,e.hidden=!1,e.classList.remove(`rest-done`),document.body.classList.add(`resting`),c(),r=window.setInterval(c,250)}}}function se(e,t,n,r){let i=e.exercises.flatMap(e=>e.sets),a=i.reduce((e,t)=>e+(t.weight??0)*t.reps,0),o=n===void 0?null:Math.max(1,Math.round((r-n)/6e4)),s=[],c=!0;for(let n of e.exercises){let r=d(t,n.name);if(r.length===0)continue;c=!1;let[i]=d([{...e,exercises:[n]}],n.name),a=r.map(e=>e.topWeight).filter(e=>e!==null);if(i.topWeight!==null&&a.length>0){let e=Math.max(...a);i.topWeight>e&&s.push({name:n.name,value:i.topWeight,previous:e,unit:`lb`})}else if(i.topWeight===null){let e=Math.max(...r.map(e=>e.bestReps));i.bestReps>e&&s.push({name:n.name,value:i.bestReps,previous:e,unit:`reps`})}}return{sets:i.length,exercises:e.exercises.length,volume:a,minutes:o,bests:s,allFirstTimes:c}}function A(e,t){return`<div class="stat"><strong>${e}</strong><span>${t}</span></div>`}function j(e){return e.bests.length>0?`
+      <section class="card bests">
+        <h3>🏆 New personal best${e.bests.length===1?``:`s`}</h3>
+        <ul>
+          ${e.bests.map(e=>`
+                <li>
+                  <span>${e.name}</span>
+                  <strong>${e.value} ${e.unit}</strong>
+                  <span class="muted">was ${e.previous}</span>
+                </li>`).join(``)}
+        </ul>
+      </section>`:e.allFirstTimes||e.sets===0?``:`<p class="hint">No new bests today. Showing up is what builds them.</p>`}function ce(e,t){let[n,r,a]=e.date.split(`-`).map(Number),o=new Date(n,r-1,a).toLocaleDateString(void 0,{weekday:`long`,month:`short`,day:`numeric`}),s=e.exercises.map(e=>`
+        <li class="session-row">
+          <span>${e.name}</span>
+          <span class="muted">${x(e.sets)}</span>
+        </li>`).join(``);return`
+    <section class="card summary-card day-${e.day}">
+      <p class="slot-label">Workout complete</p>
+      <h2>${i[e.day]} day 💪</h2>
+      <p class="muted">${o}</p>
+      <div class="stat-grid">
+        ${A(String(t.sets),t.sets===1?`set`:`sets`)}
+        ${A(String(t.exercises),t.exercises===1?`exercise`:`exercises`)}
+        ${A(t.volume.toLocaleString(),`lb lifted`)}
+        ${t.minutes===null?``:A(String(t.minutes),t.minutes===1?`minute`:`minutes`)}
+      </div>
+    </section>
+    ${j(t)}
+    ${s?`<section class="card">
+            <h3 class="sessions-heading">What you did</h3>
+            <ul class="session-list">${s}</ul>
+          </section>`:`<p class="hint">No sets were logged, but the day still counts on your calendar.</p>`}
+    <button type="button" class="finish day-${e.day}" data-action="summary-done">Done</button>
+    <button type="button" class="link-button undo-link" data-action="undo">Undo, I wasn't finished</button>
+  `}var M=()=>!0;function N(e,t){return t?[...a[e],...o]:a[e]}function P(e,t){return e.options.flatMap((e,n)=>t(e)?[n]:[])}function F(e,t=Math.random,n=M){return e.map(e=>{let r=P(e,n),i=r.length>0?r:e.options.map((e,t)=>t);return i[Math.floor(t()*i.length)]})}function le(e,t,n,r=Math.random){let i=P(e,n).filter(e=>e!==t);return i.length>0?i[Math.floor(r()*i.length)]:null}function ue(e,t,n){return e.map((e,r)=>r===t?n:e)}function I(e,t){return e.map((e,n)=>e.options[t[n]])}var L=`ppl-workout-log`,R=`ppl-workout-draft`,z=`ppl-missing-equipment`,B=/^\d{4}-\d{2}-\d{2}$/;function V(e){let t=String(e.getMonth()+1).padStart(2,`0`),n=String(e.getDate()).padStart(2,`0`);return`${e.getFullYear()}-${t}-${n}`}var H=e=>typeof e==`object`&&!!e,U=e=>typeof e==`string`&&e in i,W=e=>typeof e==`string`&&e in r;function G(e){if(!H(e))return!1;let{weight:t,reps:n}=e;return(t===null||typeof t==`number`&&t>=0&&t<=2e3)&&Number.isInteger(n)&&n>=1&&n<=100}function K(e){return H(e)&&typeof e.name==`string`&&Array.isArray(e.sets)&&e.sets.every(G)}function q(e){if(!H(e)||typeof e.date!=`string`||!B.test(e.date)||!U(e.day))return null;let t=Array.isArray(e.exercises)?e.exercises.filter(K):[];return{date:e.date,day:e.day,exercises:t}}function J(e){if(!H(e)||!U(e.day)||!Array.isArray(e.workout)||!Array.isArray(e.sets)||typeof e.abs!=`boolean`||!Array.isArray(e.taken)||!e.taken.every(W)||e.startedAt!==void 0&&typeof e.startedAt!=`number`)return!1;let t=N(e.day,e.abs),n=e.sets;return e.workout.length===t.length&&n.length===t.length&&e.workout.every((e,n)=>Number.isInteger(e)&&e>=0&&e<t[n].options.length)&&n.every(e=>Array.isArray(e)&&e.every(e=>H(e)&&typeof e.weight==`string`&&typeof e.reps==`string`))}function Y(e){try{return JSON.parse(localStorage.getItem(e)??`null`)}catch{return null}}function X(e,t){try{return t===null?localStorage.removeItem(e):localStorage.setItem(e,JSON.stringify(t)),!0}catch{return!1}}function de(){let e=Y(L);return Array.isArray(e)?e.map(q).filter(e=>e!==null):[]}var fe=e=>X(L,e);function pe(){let e=Y(R);return H(e)&&(e.abs??=!1,e.taken??=[]),J(e)?e:null}var me=e=>X(R,e);function he(){let e=Y(z);return Array.isArray(e)?e.filter(W):[]}var ge=e=>X(z,e);function _e(e,t){return[...e].reverse().sort((e,t)=>t.date.localeCompare(e.date)).flatMap(e=>e.exercises).find(e=>e.name===t)}var ve=Object.keys(i),ye=[`S`,`M`,`T`,`W`,`T`,`F`,`S`];function be(e){return e.replace(/&/g,`&amp;`).replace(/"/g,`&quot;`).replace(/</g,`&lt;`)}var Z=e=>`${e} set${e===1?``:`s`} logged`,Q=e=>N(e.day,e.abs),xe=[...Object.keys(a).flatMap(e=>a[e].map(t=>({day:i[e],slot:t}))),...o.map(e=>({day:`Abs`,slot:e}))],Se=e=>xe.flatMap(({slot:e})=>e.options).filter(t=>t.equipment===e).length;function Ce(a,l=()=>new Date){let d=pe(),f=`home`,p=null,m=null,g=`progress`,S=null,C=null,w=new Set(he()),T=null,E=de(),O=null,k=ie(l()),A={year:l().getFullYear(),month:l().getMonth()};a.innerHTML=`
     <header class="app-header">
       <div class="header-row">
         <button type="button" class="brand" data-action="home">
@@ -68,16 +102,16 @@
         <button type="button" class="secondary equipment-button" data-action="equipment">⚙ Equipment</button>
       </div>
       <nav class="day-picker" aria-label="Start a workout">
-        ${X.map(e=>`<button type="button" class="day-${e}" data-day="${e}">${i[e]}</button>`).join(``)}
+        ${ve.map(e=>`<button type="button" class="day-${e}" data-day="${e}">${i[e]}</button>`).join(``)}
       </nav>
     </header>
     <main id="view"></main>
     <div class="rest-timer" role="status" aria-live="polite" hidden></div>
-  `;let A=a.querySelector(`#view`),M=oe(a.querySelector(`.rest-timer`));function P(){fe(d)||(w=`Your sets can't be saved on this device. Is this a private browsing window?`)}function F(){return!d||b(d.sets)===0||window.confirm(`Discard the ${Z(b(d.sets))} for ${i[d.day]} day?`)}let I=e=>t=>!C.has(t.equipment)&&!e.includes(t.equipment);function L(e,t=!1,n=[]){let r=j(e,t),i=N(r,Math.random,I(n));d={day:e,abs:t,taken:n,workout:i,sets:y(r,i)},P()}function z(e,t){let n=Q(e)[t],{equipment:i}=n.options[e.workout[t]],a=e.taken.includes(i)?e.taken:[...e.taken,i],o=se(n,e.workout[t],I(a));if(o===null){e.taken=a,P(),S={slot:t,text:`Nothing else for this is free. Wait for the ${r[i].toLowerCase()}, or tap Change.`};return}let s=b([e.sets[t]]);s>0&&!window.confirm(`Swap this exercise and discard its ${Z(s)}?`)||(e.taken=a,e.workout=ce(e.workout,t,o),e.sets[t]=v(Q(e),t,o),P(),S={slot:t,text:`${r[i]} is taken, so here's ${n.options[o].name}.`})}function B(e){let t=N(o,Math.random,I(e.taken));e.abs=!0,e.workout=[...e.workout,...t],e.sets=[...e.sets,...y(o,t)],P()}function V(e){let t=e.workout.length-o.length,n=b(e.sets.slice(t));n>0&&!window.confirm(`Remove the abs finisher and its ${Z(n)}?`)||(e.abs=!1,e.workout=e.workout.slice(0,t),e.sets=e.sets.slice(0,t),P())}function H(){if(!E)return``;let e=E.undo?`<button type="button" class="link-button" data-action="undo">Undo</button>`:``;return`<div class="notice" role="status"><span>${E.message}</span>${e}</div>`}function U(){return d?`
+  `;let j=a.querySelector(`#view`),M=oe(a.querySelector(`.rest-timer`));function P(){me(d)||(T=`Your sets can't be saved on this device. Is this a private browsing window?`)}function L(){return!d||b(d.sets)===0||window.confirm(`Discard the ${Z(b(d.sets))} for ${i[d.day]} day?`)}let R=e=>t=>!w.has(t.equipment)&&!e.includes(t.equipment);function z(e,t=!1,n=[],r=l().getTime()){let i=N(e,t),a=F(i,Math.random,R(n));d={day:e,abs:t,taken:n,startedAt:r,workout:a,sets:y(i,a)},P()}function B(e,t){let n=Q(e)[t],{equipment:i}=n.options[e.workout[t]],a=e.taken.includes(i)?e.taken:[...e.taken,i],o=le(n,e.workout[t],R(a));if(o===null){e.taken=a,P(),C={slot:t,text:`Nothing else for this is free. Wait for the ${r[i].toLowerCase()}, or tap Change.`};return}let s=b([e.sets[t]]);s>0&&!window.confirm(`Swap this exercise and discard its ${Z(s)}?`)||(e.taken=a,e.workout=ue(e.workout,t,o),e.sets[t]=v(Q(e),t,o),P(),C={slot:t,text:`${r[i]} is taken, so here's ${n.options[o].name}.`})}function H(e){let t=F(o,Math.random,R(e.taken));e.abs=!0,e.workout=[...e.workout,...t],e.sets=[...e.sets,...y(o,t)],P()}function U(e){let t=e.workout.length-o.length,n=b(e.sets.slice(t));n>0&&!window.confirm(`Remove the abs finisher and its ${Z(n)}?`)||(e.abs=!1,e.workout=e.workout.slice(0,t),e.sets=e.sets.slice(0,t),P())}function W(){if(!O)return``;let e=O.undo?`<button type="button" class="link-button" data-action="undo">Undo</button>`:``;return`<div class="notice" role="status"><span>${O.message}</span>${e}</div>`}function G(){return d?`
       <button type="button" class="resume day-${d.day}" data-action="resume">
         <span>Continue ${i[d.day]} day</span>
         <span class="resume-detail">${Z(b(d.sets))} ›</span>
-      </button>`:``}function W(){let{year:t,month:n}=k,r=`${t}-${String(n+1).padStart(2,`0`)}-`,a=T.filter(e=>e.date.startsWith(r)),o=new Map;for(let e of a)o.set(e.date,[...o.get(e.date)??[],e.day]);let s=R(l()),c=new Date(t,n,1).toLocaleDateString(void 0,{month:`long`,year:`numeric`}),u=X.map(e=>{let t=a.filter(t=>t.day===e).length;return`<span class="count-chip day-${e}">${i[e]} ${t}</span>`}).join(``),d=e(t,n).map(e=>{if(e===null)return`<div class="cal-cell blank"></div>`;let t=`${r}${String(e).padStart(2,`0`)}`,n=o.get(t)??[],a=[`cal-cell`,n.length>0?`logged day-${n[0]}`:``,t===s?`today`:``],c=n.length>1?` style="background: linear-gradient(135deg, ${n.map((e,t)=>`var(--${e}) ${t*100/n.length}% ${(t+1)*100/n.length}%`).join(`, `)})"`:``,l=n.map(e=>`<span class="cal-split">${i[e]}</span>`).join(``);return`<div class="${a.join(` `)}"${c}><span class="cal-date">${e}</span>${l}</div>`}).join(``),f=a.length===0?`<p class="hint">No workouts logged this month. Pick a split above, then tap <strong>Finish workout</strong>.</p>`:``;return`
+      </button>`:``}function K(){let{year:t,month:n}=A,r=`${t}-${String(n+1).padStart(2,`0`)}-`,a=E.filter(e=>e.date.startsWith(r)),o=new Map;for(let e of a)o.set(e.date,[...o.get(e.date)??[],e.day]);let s=V(l()),c=new Date(t,n,1).toLocaleDateString(void 0,{month:`long`,year:`numeric`}),u=ve.map(e=>{let t=a.filter(t=>t.day===e).length;return`<span class="count-chip day-${e}">${i[e]} ${t}</span>`}).join(``),d=e(t,n).map(e=>{if(e===null)return`<div class="cal-cell blank"></div>`;let t=`${r}${String(e).padStart(2,`0`)}`,n=o.get(t)??[],a=[`cal-cell`,n.length>0?`logged day-${n[0]}`:``,t===s?`today`:``],c=n.length>1?` style="background: linear-gradient(135deg, ${n.map((e,t)=>`var(--${e}) ${t*100/n.length}% ${(t+1)*100/n.length}%`).join(`, `)})"`:``,l=n.map(e=>`<span class="cal-split">${i[e]}</span>`).join(``);return`<div class="${a.join(` `)}"${c}><span class="cal-date">${e}</span>${l}</div>`}).join(``),f=a.length===0?`<p class="hint">No workouts logged this month. Pick a split above, then tap <strong>Finish workout</strong>.</p>`:``;return`
       <section class="card calendar">
         <div class="cal-header">
           <button type="button" class="icon-button" data-action="prev-month" aria-label="Previous month">‹</button>
@@ -87,43 +121,43 @@
         <p class="cal-total"><strong>${a.length}</strong> workout${a.length===1?``:`s`} this month</p>
         <div class="count-chips">${u}</div>
         <div class="cal-grid">
-          ${he.map(e=>`<div class="cal-weekday">${e}</div>`).join(``)}
+          ${ye.map(e=>`<div class="cal-weekday">${e}</div>`).join(``)}
           ${d}
         </div>
         ${f}
       </section>
-    `}function G(){return`
-      ${H()}
-      ${U()}
+    `}function q(){return`
+      ${W()}
+      ${G()}
       <section class="card quote-card">
-        <p class="quote">“${D[O]}”</p>
+        <p class="quote">“${D[k]}”</p>
         <button type="button" class="link-button" data-action="next-quote">Another one</button>
       </section>
-      ${W()}
-      ${te(T)}
-    `}function K(e,t){return`
+      ${K()}
+      ${te(E)}
+    `}function J(e,t){return`
       <div class="options" role="group" aria-label="Choose an exercise">
-        ${Q(e)[t].options.map((n,r)=>{let i=e.workout[t]===r;if(C.has(n.equipment)&&!i)return``;let a=e.taken.includes(n.equipment)?`<span class="tag">Taken</span>`:``;return`
+        ${Q(e)[t].options.map((n,r)=>{let i=e.workout[t]===r;if(w.has(n.equipment)&&!i)return``;let a=e.taken.includes(n.equipment)?`<span class="tag">Taken</span>`:``;return`
               <button type="button" class="option${i?` current`:``}" data-choose="${t}:${r}" aria-pressed="${i}">
                 <span class="option-name">${n.name}${a}</span>
                 <span class="option-detail">${n.targetMuscles.join(` · `)} · ${n.sets}×${n.reps}</span>
               </button>`}).join(``)}
       </div>
-    `}function q(e){let t=_(`weight`,e.weight)||_(`reps`,e.reps);return[`set-row`,h(e.reps)===null?``:`done`,t?`invalid`:``].join(` `)}function ye(e,t){if(!t)return`<p class="weight">${s(e)}</p>`;let n={up:`⬆`,same:`＝`,down:`⬇`}[t.direction];return`<p class="advice advice-${t.direction}"><span class="advice-icon">${n}</span>${t.message}</p>`}function be(e,t,n,r,i){return`<div class="set-log">${r?`<p class="last-time">
+    `}function Y(e){let t=_(`weight`,e.weight)||_(`reps`,e.reps);return[`set-row`,h(e.reps)===null?``:`done`,t?`invalid`:``].join(` `)}function X(e,t){if(!t)return`<p class="weight">${s(e)}</p>`;let n={up:`⬆`,same:`＝`,down:`⬇`}[t.direction];return`<p class="advice advice-${t.direction}"><span class="advice-icon">${n}</span>${t.message}</p>`}function Ce(e,t,n,r,i){return`<div class="set-log">${r?`<p class="last-time">
           <span>Last time: <strong>${x(r.sets)}</strong></span>
           <button type="button" class="link-button" data-history="${e.name}">History</button>
         </p>`:`<p class="last-time">First time logging this one.</p>`}${n.map((n,a)=>{let o=i?.weight??r?.sets[a]?.weight??r?.sets.at(-1)?.weight,s=(e,r,i,o)=>`
           <label class="field">
             <input type="text" inputmode="${i}" autocomplete="off" data-set="${t}:${a}:${e}"
-              value="${ge(n[e])}" placeholder="${o}"
+              value="${be(n[e])}" placeholder="${o}"
               aria-label="Set ${a+1} ${e===`weight`?`weight in pounds`:`reps`}" />
             <span>${r}</span>
           </label>`;return`
-          <div class="${q(n)}">
+          <div class="${Y(n)}">
             <span class="set-number">${a+1}</span>
             ${s(`weight`,`lb`,`decimal`,o==null?``:String(o))}
             ${s(`reps`,`reps`,`numeric`,e.reps)}
-          </div>`}).join(``)}</div>`}function xe(e){let t=Q(e),n=t.length-o.length,a=le(t,e.workout).map((i,a)=>{let o=me(T,i.name),s=o?u(i,o):null;return`${e.abs&&a===n?`
+          </div>`}).join(``)}</div>`}function we(e){let t=Q(e),n=t.length-o.length,a=I(t,e.workout).map((i,a)=>{let o=_e(E,i.name),s=o?u(i,o):null;return`${e.abs&&a===n?`
       <li class="section-heading">
         <h3>Abs finisher</h3>
         <button type="button" class="link-button" data-action="remove-abs">Remove</button>
@@ -138,19 +172,19 @@
             </div>
             <div class="muscle-chips">${i.targetMuscles.map(e=>`<span>${e}</span>`).join(``)}</div>
             <p class="sets">${i.sets} sets × ${i.reps} reps</p>
-            ${ye(i,s)}
+            ${X(i,s)}
             <ul class="cues">${i.cues.map(e=>`<li>${e}</li>`).join(``)}</ul>
             <div class="card-actions">
               <a href="${c(i)}" target="_blank" rel="noopener noreferrer">▶ Form video</a>
               <div class="card-buttons">
                 <button type="button" data-taken="${a}" aria-label="${r[i.equipment]} is taken; swap exercise">Taken</button>
-                <button type="button" data-toggle="${a}" aria-expanded="${g===a}">${g===a?`Close`:`Change`}</button>
+                <button type="button" data-toggle="${a}" aria-expanded="${S===a}">${S===a?`Close`:`Change`}</button>
               </div>
             </div>
-            ${S?.slot===a?`<p class="slot-message" role="status">${S.text}</p>`:``}
-            ${g===a?K(e,a):``}
-            ${be(i,a,e.sets[a],o,s)}
-          </li>`}).join(``),s=w?`<p class="finish-error" role="alert">${w}</p>`:``;return`
+            ${C?.slot===a?`<p class="slot-message" role="status">${C.text}</p>`:``}
+            ${S===a?J(e,a):``}
+            ${Ce(i,a,e.sets[a],o,s)}
+          </li>`}).join(``),s=T?`<p class="finish-error" role="alert">${T}</p>`:``;return`
       <div class="workout-header">
         <h2>${i[e.day]} day <span class="muted">· ${t.length} exercises</span></h2>
         <button type="button" class="secondary" data-action="shuffle">Shuffle</button>
@@ -163,7 +197,7 @@
       <button type="button" class="finish" data-action="finish">
         Finish workout <span class="finish-count">· ${Z(b(e.sets))}</span>
       </button>
-    `}function Se(){let e=_e.filter(({slot:e})=>e.options.every(e=>C.has(e.equipment)));return`
+    `}function Te(){let e=xe.filter(({slot:e})=>e.options.every(e=>w.has(e.equipment)));return`
       <div class="workout-header">
         <h2>Equipment at the ARC</h2>
         <button type="button" class="secondary" data-action="home">Done</button>
@@ -175,9 +209,9 @@
           <h3>${e.label}</h3>
           ${Object.entries(e.items).map(([e,t])=>`
                 <label class="check-row">
-                  <input type="checkbox" data-equipment="${e}" ${C.has(e)?``:`checked`} />
+                  <input type="checkbox" data-equipment="${e}" ${w.has(e)?``:`checked`} />
                   <span class="check-label">${t}</span>
-                  <span class="muted">${ve(e)}</span>
+                  <span class="muted">${Se(e)}</span>
                 </label>`).join(``)}
         </section>`).join(``)}
-    `}function $(){f===`workout`&&!d&&(f=`home`);let e=f===`workout`?d:null;a.dataset.split=e?.day??``,a.querySelectorAll(`[data-day]`).forEach(t=>{t.setAttribute(`aria-pressed`,String(t.dataset.day===e?.day))}),a.querySelector(`[data-action="equipment"]`).setAttribute(`aria-pressed`,String(f===`equipment`)),e?A.innerHTML=xe(e):f===`equipment`?A.innerHTML=Se():f===`progress`&&p?A.innerHTML=re(T,p,m===`workout`?`Back to workout`:`All exercises`):f===`progress`?A.innerHTML=ne(T):A.innerHTML=G()}function Ce(e){if(e.sets.flat().some(e=>_(`weight`,e.weight)||_(`reps`,e.reps))){w=`Some sets (in red) don't look right. Reps must be 1–100 and weight 0–2000 lb.`;return}let t=T,n=R(l());T=[...T,{date:n,day:e.day,exercises:ee(Q(e),e.workout,e.sets)}],J(T)?(E={message:`${i[e.day]} day logged with ${Z(b(e.sets))}. Nice work!`,undo:{log:t,draft:e}},d=null,P(),f=`home`,k={year:l().getFullYear(),month:l().getMonth()}):(T=t,w=`Couldn't save your workout. Is this a private browsing window?`)}function we(e){switch(e){case`home`:f=`home`,p=null,E=null;break;case`progress`:f=`progress`,p=null,E=null;break;case`back`:f=m,p=null;break;case`equipment`:f=`equipment`,E=null;break;case`resume`:f=`workout`,E=null;break;case`shuffle`:d&&F()&&L(d.day,d.abs,d.taken),g=null;break;case`add-abs`:d&&B(d);break;case`remove-abs`:d&&V(d);break;case`finish`:d&&Ce(d);break;case`undo`:E?.undo&&J(E.undo.log)&&(T=E.undo.log,d=E.undo.draft,P()),E=null;break;case`next-quote`:O=(O+1)%D.length;break;case`prev-month`:case`next-month`:k=t(k.year,k.month,e===`prev-month`?-1:1)}}a.addEventListener(`click`,e=>{let t=e.target.closest(`button`);if(!t)return;let{day:n,action:r,toggle:i,choose:a,taken:o,history:s}=t.dataset;if(w=null,S=null,n){let e=n;if(d?.day!==e){if(!F())return;L(e)}f=`workout`,g=null,E=null}else if(s)m=f===`workout`?`workout`:`progress`,p=s,f=`progress`;else if(o!==void 0&&d)z(d,Number(o)),g=null;else if(i!==void 0)g=g===Number(i)?null:Number(i);else if(a!==void 0&&d){let[e,t]=a.split(`:`).map(Number);d.workout[e]!==t&&(d.workout=ce(d.workout,e,t),d.sets[e]=v(Q(d),e,t),P()),g=null}else if(r)we(r);else return;$(),(n||s||[`home`,`equipment`,`resume`,`progress`,`back`].includes(r??``)||r===`finish`&&f===`home`)&&window.scrollTo({top:0})}),a.addEventListener(`change`,e=>{let t=e.target;if(!t.dataset.set||!d)return;let[n,,r]=t.dataset.set.split(`:`);if(r!==`reps`||h(t.value)===null)return;let i=le(Q(d),d.workout)[Number(n)];M.start(ae(i))}),a.addEventListener(`change`,e=>{let t=e.target,n=t.dataset.equipment;n&&(t.checked?C.delete(n):C.add(n),pe([...C])||(C=new Set(Y()),window.alert(`Couldn't save. Is this a private browsing window?`)),$())}),a.addEventListener(`input`,e=>{let t=e.target;if(!t.dataset.set||!d)return;let[n,r,i]=t.dataset.set.split(`:`),o=d.sets[Number(n)][Number(r)];o[i]=t.value,P(),t.closest(`.set-row`).className=q(o),a.querySelector(`.finish-count`).textContent=`· ${Z(b(d.sets))}`}),$()}ye(document.querySelector(`#app`)),`serviceWorker`in navigator&&navigator.serviceWorker.register(`./sw.js`).catch(()=>{});
+    `}function $(){f===`workout`&&!d&&(f=`home`);let e=f===`workout`?d:null;a.dataset.split=e?.day??``,a.querySelectorAll(`[data-day]`).forEach(t=>{t.setAttribute(`aria-pressed`,String(t.dataset.day===e?.day))}),a.querySelector(`[data-action="equipment"]`).setAttribute(`aria-pressed`,String(f===`equipment`)),e?j.innerHTML=we(e):f===`summary`&&p?j.innerHTML=ce(p.workout,p.stats):f===`equipment`?j.innerHTML=Te():f===`progress`&&m?j.innerHTML=re(E,m,g===`workout`?`Back to workout`:`All exercises`):f===`progress`?j.innerHTML=ne(E):j.innerHTML=q()}function Ee(e){if(e.sets.flat().some(e=>_(`weight`,e.weight)||_(`reps`,e.reps))){T=`Some sets (in red) don't look right. Reps must be 1–100 and weight 0–2000 lb.`;return}let t=E,n={date:V(l()),day:e.day,exercises:ee(Q(e),e.workout,e.sets)};E=[...E,n],fe(E)?(O={message:`${i[e.day]} day logged with ${Z(b(e.sets))}. Nice work!`,undo:{log:t,draft:e}},p={workout:n,stats:se(n,t,e.startedAt,l().getTime())},d=null,P(),f=`summary`,A={year:l().getFullYear(),month:l().getMonth()}):(E=t,T=`Couldn't save your workout. Is this a private browsing window?`)}function De(e){switch(e){case`home`:f=`home`,m=null,O=null;break;case`progress`:f=`progress`,m=null,O=null;break;case`back`:f=g,m=null;break;case`equipment`:f=`equipment`,O=null;break;case`resume`:f=`workout`,O=null;break;case`shuffle`:d&&L()&&z(d.day,d.abs,d.taken,d.startedAt),S=null;break;case`add-abs`:d&&H(d);break;case`remove-abs`:d&&U(d);break;case`finish`:d&&Ee(d);break;case`summary-done`:f=`home`,p=null;break;case`undo`:O?.undo&&fe(O.undo.log)&&(E=O.undo.log,d=O.undo.draft,P(),f=`workout`),O=null,p=null;break;case`next-quote`:k=(k+1)%D.length;break;case`prev-month`:case`next-month`:A=t(A.year,A.month,e===`prev-month`?-1:1)}}a.addEventListener(`click`,e=>{let t=e.target.closest(`button`);if(!t)return;let{day:n,action:r,toggle:i,choose:a,taken:o,history:s}=t.dataset;if(T=null,C=null,n){let e=n;if(d?.day!==e){if(!L())return;z(e)}f=`workout`,S=null,O=null}else if(s)g=f===`workout`?`workout`:`progress`,m=s,f=`progress`;else if(o!==void 0&&d)B(d,Number(o)),S=null;else if(i!==void 0)S=S===Number(i)?null:Number(i);else if(a!==void 0&&d){let[e,t]=a.split(`:`).map(Number);d.workout[e]!==t&&(d.workout=ue(d.workout,e,t),d.sets[e]=v(Q(d),e,t),P()),S=null}else if(r)De(r);else return;$(),(n||s||[`home`,`equipment`,`resume`,`progress`,`back`,`summary-done`,`undo`].includes(r??``)||r===`finish`&&f===`summary`)&&window.scrollTo({top:0})}),a.addEventListener(`change`,e=>{let t=e.target;if(!t.dataset.set||!d)return;let[n,,r]=t.dataset.set.split(`:`);if(r!==`reps`||h(t.value)===null)return;let i=I(Q(d),d.workout)[Number(n)];M.start(ae(i))}),a.addEventListener(`change`,e=>{let t=e.target,n=t.dataset.equipment;n&&(t.checked?w.delete(n):w.add(n),ge([...w])||(w=new Set(he()),window.alert(`Couldn't save. Is this a private browsing window?`)),$())}),a.addEventListener(`input`,e=>{let t=e.target;if(!t.dataset.set||!d)return;let[n,r,i]=t.dataset.set.split(`:`),o=d.sets[Number(n)][Number(r)];o[i]=t.value,P(),t.closest(`.set-row`).className=Y(o),a.querySelector(`.finish-count`).textContent=`· ${Z(b(d.sets))}`}),$()}Ce(document.querySelector(`#app`)),`serviceWorker`in navigator&&navigator.serviceWorker.register(`./sw.js`).catch(()=>{});
