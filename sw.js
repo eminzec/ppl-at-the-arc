@@ -52,5 +52,9 @@ self.addEventListener("fetch", (event) => {
   // Built files have a content hash in their name, so a cached copy is never out of date.
   // ignoreVary: a server's "Vary: Origin" would otherwise make the page's module-script request
   // miss the copy saved during install, which was fetched without an Origin header.
-  event.respondWith(caches.match(request, { ignoreVary: true }).then((cached) => cached ?? fetch(request).then((response) => cacheResponse(request, response))));
+  event.respondWith(
+    caches
+      .match(request, { ignoreVary: true })
+      .then((cached) => cached ?? fetch(request).then((response) => cacheResponse(request, response))),
+  );
 });
