@@ -655,11 +655,12 @@
         </li>`}).join(``),S=l?`<p class="finish-error" role="alert">${l}</p>`:``,w=h.map(t=>{let n=E(p[t].name),r=g.get(t)??``;return`
         <button type="button" class="${Ra(e.sets[t])}${G(m,h,t)?` superset-chip`:``}" data-jump="${t}" aria-label="${x(`Go to exercise {number}, {exercise}`,{number:r,exercise:n})}">
           <span class="jump-number">${r}</span><span class="jump-name">${n}</span>
-        </button>`}).join(``),D=e.picks?`<button type="button" class="secondary" data-action="build">${x(`Edit exercises`)}</button>
+        </button>`}).join(``),D=`<button type="button" class="secondary" data-action="superset">🔗 ${x(`Superset`)}</button>`,te=e.picks?`<button type="button" class="secondary" data-action="build">${x(`Edit exercises`)}</button>
+       ${D}
        <button type="button" class="secondary" data-action="ready-made">${x(`Ready-made`)}</button>`:`<button type="button" class="secondary" data-action="shuffle">${x(`Shuffle`)}</button>
-       <button type="button" class="choose-own" data-action="build">✏️ ${x(`Choose your own`)}</button>`,te=u?oo(h,p,v,g,m):t.supersetPicks?to(t.supersetPicks,h,p,g,m,v):`<nav class="exercise-nav" aria-label="${x(`Jump to an exercise`)}">${w}</nav>
+       ${D}
+       <button type="button" class="choose-own" data-action="build">✏️ ${x(`Choose your own`)}</button>`,O=u?oo(h,p,v,g,m):t.supersetPicks?to(t.supersetPicks,h,p,g,m,v):`<nav class="exercise-nav" aria-label="${x(`Jump to an exercise`)}">${w}</nav>
       <div class="list-tools">
-        <button type="button" class="link-button" data-action="superset">🔗 ${x(`Superset`)}</button>
         <button type="button" class="link-button" data-action="reorder">↕ ${x(`Reorder`)}</button>
       </div>
       <ol class="exercise-list">${b}</ol>
@@ -668,7 +669,7 @@
             </button>`}`;return`
     <div class="workout-header">
       <h2>${x(`{day} day`,{day:x(k[e.day])})}${e.home?` 🏠`:``} <span class="muted">· ${C(f.length,`{count} exercise`,`{count} exercises`)} · <span class="workout-estimate">${x(`≈ {minutes} min`,{minutes:qi(p,e.sets.map(e=>e.length),m)})}</span></span></h2>
-      <div class="header-actions">${D}</div>
+      <div class="header-actions">${te}</div>
     </div>
     <button type="button" class="beginner-toggle" role="switch" aria-checked="${e.beginner===!0}" data-action="beginner">
       <span class="beginner-label">🌱 ${x(`Beginner mode`)}</span>
@@ -685,7 +686,7 @@
     ${e.day===`legs`&&t.recentRun?`<p class="advice run-note"><span class="advice-icon">🏃</span>${t.recentRun} ${x(`Your legs may be tired, so think about doing Push or Pull today, or go lighter on legs.`)}</p>`:``}
     ${d.length>0?`<nav class="saved-row" aria-label="${x(`Your saved workouts`)}">${Qn(d,t.currentSaved)}</nav>`:``}
     ${no(p)}
-    ${te}
+    ${O}
     ${S}
     <button type="button" class="finish" data-action="finish">
       ${x(`Finish workout`)} <span class="finish-count">· ${B(L(e.sets))}</span>
